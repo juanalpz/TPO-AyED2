@@ -14,16 +14,21 @@ public class DiccionarioSimpleModTDA implements DiccionarioSimpleTDA {
     private Nodo inicio;
 
     public void inicializarDiccionario() {
+        /* Complejidad: O(1)
+        * Inicializa el diccionario, asignando null al puntero inicio */
+
         inicio = null;
     }
 
     public void agregar(int clave, int valor) {
+        /* Complejidad: O(1) en el mejor caso, O(n) en el peor caso
+        * Si la clave ya existe y el valor es diferente, lo actualiza y
+        * suma 1 al contador. Si no existe, lo agrega con contador en 0. */
+
         Nodo aux = inicio;
 
-        // Recorre la lista; si encuentra la clave, actualiza el valor y el contador
         while (aux != null) {
             if (aux.clave == clave) {
-                // Solo incrementa si el valor es distinto
                 if (aux.valor != valor) {
                     aux.valor = valor;
                     aux.contador++;
@@ -33,7 +38,6 @@ public class DiccionarioSimpleModTDA implements DiccionarioSimpleTDA {
             aux = aux.sig;
         }
 
-        // Si no encontró la clave, crea un nuevo nodo al inicio
         Nodo nuevo = new Nodo();
         nuevo.clave = clave;
         nuevo.valor = valor;
@@ -43,22 +47,25 @@ public class DiccionarioSimpleModTDA implements DiccionarioSimpleTDA {
     }
 
     public void eliminar(int clave) {
-        // Si el diccionario está vacío, no hace nada
+        /* Complejidad: O(1) en el mejor caso, O(n) en el peor caso
+        * Si encuentra la clave la elimina, y si el diccionario está
+        * vacío termina sin hacer nada. Si la clave está en el primer
+        * nodo, ajusta el puntero inicio al siguiente nodo. Si no,
+        * recorre la lista hasta encontrarla, y si la encuentra la
+        * elimina ajustando el enlace del nodo anterior. */
+
         if (inicio == null) {
             return;
         }
 
-        // Si la clave está en el primer nodo, el inicio apunta al siguiente nodo
         if (inicio.clave == clave) {
             inicio = inicio.sig;
         } else {
-            // Si la clave no estaba en el inicio, recorre el diccionario
             Nodo aux = inicio;
             while (aux.sig != null && aux.sig.clave != clave) {
                 aux = aux.sig;
             }
 
-            // Si encuentra el nodo lo saltea
             if (aux.sig != null) {
                 aux.sig = aux.sig.sig;
             }
@@ -66,6 +73,12 @@ public class DiccionarioSimpleModTDA implements DiccionarioSimpleTDA {
     }
 
     public int recuperar(int clave) {
+        /* Complejidad: O(1) en el mejor caso, O(n) en el peor caso
+        * Recorre la lista buscando la clave. Si la encuentra, devuelve
+        * el valor asociado, y si no la encuentra devuelve -1 (en teoría
+        * no debería pasar si las claves siempre existen, pero pongo -1
+        * para que pueda compilar) */
+
         Nodo actual = inicio;
 
         while (actual != null) {
@@ -75,10 +88,15 @@ public class DiccionarioSimpleModTDA implements DiccionarioSimpleTDA {
             actual = actual.sig;
         }
         return -1;
-        // Se supone que la clave siempre existe. Pongo -1 para que pueda compilar
     }
 
     public int recuperarMod(int clave) {
+        /* Complejidad: O(1) en el mejor caso, O(n) en el peor caso
+        * Igual al metodo recuperar, pero devuelve el contador de
+        * modificaciones en lugar del valor. Recorre hasta encontrar
+        * la clave, y devuelve cuántas veces fue cambiado el valor
+        * asociado. */
+
         Nodo actual = inicio;
 
         while (actual != null) {
@@ -88,10 +106,13 @@ public class DiccionarioSimpleModTDA implements DiccionarioSimpleTDA {
             actual = actual.sig;
         }
         return -1;
-        // Se supone que la clave siempre existe. Pongo -1 para que pueda compilar
     }
 
     public ConjuntoTDA claves() {
+        /* Complejidad: O(1) en el mejor caso, O(n) en el peor caso
+        * Crea un conjunto que permite claves repetidas. Recorre la
+        * lista de nodos y agrega cada clave al conjunto. */
+
         ConjuntoTDA claves = new ConjuntoEspecialTDA();
         Nodo actual = inicio;
         while (actual != null) {
