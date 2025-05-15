@@ -12,11 +12,16 @@ public class ConjuntoEspecialTDA implements ConjuntoTDA {
     private Nodo inicio;
 
     public void inicializarConjunto() {
+        /* Complejidad: O(1)
+        * Reinicializa el conjunto, poniendo el puntero inicio en null */
+
         inicio = null;
     }
 
     public void agregar(int x) {
-        // Agrega un nuevo nodo, independientemente de si el valor ya existe
+        /* Complejidad: O(1)
+        * Agrega un nuevo valor al principio de la lista, permitiendo duplicados */
+
         Nodo nuevo = new Nodo();
         nuevo.valor = x;
         nuevo.sig = inicio;
@@ -24,43 +29,54 @@ public class ConjuntoEspecialTDA implements ConjuntoTDA {
     }
 
     public void sacar(int x) {
-        // Si el conjunto está vacío, no hace nada
-        if (conjuntoVacio()) {
-            return;
-        }
+        /* Complejidad: O(1) en el mejor caso, O(n) en el peor caso
+        * Elimina todas las repeticiones del valor x que estén en la lista.
+        * Primero se fija si los primeros nodos tienen se número y los va sacando.
+        * Después recorre el resto de la lista y, cada vez que lo encuentra, lo
+        * salta (así se elimina) */
 
-        // Si se repite un valor al principio de la lista, se asegura de eliminar sus apariciones
-        while (inicio != null && inicio.valor == x) {
-            inicio = inicio.sig;
-        }
+        if (!conjuntoVacio()) {
+            while (inicio != null && inicio.valor == x) {
+                inicio = inicio.sig;
+            }
 
-        // Recorre el resto de la lista, siempre mirando al siguiente nodo
-        Nodo aux = inicio;
-        while (aux != null && aux.sig != null) {
-            if (aux.sig.valor == x) { // Si encuentra a 'x', lo salta
-                aux.sig = aux.sig.sig;
-            } else {
-                aux = aux.sig; // Si no lo encuentra, avanza al siguiente nodo
+            Nodo aux = inicio;
+            while (aux != null && aux.sig != null) {
+                if (aux.sig.valor == x) {
+                    aux.sig = aux.sig.sig;
+                } else {
+                    aux = aux.sig;
+                }
             }
         }
     }
 
     public int elegir() {
+        /* Complejidad: O(1)
+        * Devuelve el primer número que encuentra en la lista */
+
         return inicio.valor;
     }
 
     public boolean pertenece(int x) {
+        /* Complejidad: O(1) en el mejor caso, O(n) en el peor caso
+        * Indica si un número está en el conjunto. Empieza en el inicio y va
+        * revisando uno por uno hasta encontrarlo, o hasta llegar al final. Si
+        * lo encuentra devuelve true, si no, false */
+
         Nodo aux = inicio;
-        // Recorre la lista mientras no llegue al final y no haya encontrado el valor
         while (aux != null && aux.valor != x) {
             aux = aux.sig;
         }
 
-        // Devuelve true si se encontró el valor, false en caso contrario
         return (aux != null);
     }
 
     public boolean conjuntoVacio() {
+        /* Complejidad O(1)
+        * Indica si el conjunto está vacío. Mira si el inicio es null; si lo es,
+        * entonces no hay nada en la lista. */
+
         return (inicio == null);
     }
 }
