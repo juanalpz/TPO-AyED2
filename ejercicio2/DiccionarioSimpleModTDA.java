@@ -113,7 +113,7 @@ public class DiccionarioSimpleModTDA implements DiccionarioSimpleTDA {
         * Crea un conjunto que permite claves repetidas. Recorre la
         * lista de nodos y agrega cada clave al conjunto. */
 
-        ConjuntoTDA claves = new ConjuntoEspecialTDA();
+        ConjuntoTDA claves = new Conjunto();
         Nodo actual = inicio;
         while (actual != null) {
             claves.agregar(actual.clave);
